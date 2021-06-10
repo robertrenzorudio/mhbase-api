@@ -13,7 +13,7 @@ import { Skill } from './skill.model';
 import { SkillRank } from './skill-rank.model';
 
 @Resolver(Skill)
-export class SkillsResolver {
+export class SkillResolver {
   @FieldResolver()
   async ranks(@Root() skill: Skill, @Ctx() ctx: Context): Promise<SkillRank[]> {
     return ctx.prisma.skill.findUnique({ where: { id: skill.id } }).ranks();
@@ -21,9 +21,7 @@ export class SkillsResolver {
 
   @Query(() => Skill, { nullable: true })
   async skill(@Arg('id', () => Int) id: number, @Ctx() ctx: Context) {
-    return ctx.prisma.skill.findUnique({
-      where: { id: id },
-    });
+    return ctx.prisma.skill.findUnique({ where: { id: id } });
   }
 
   @Query(() => [Skill])
