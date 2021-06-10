@@ -8,6 +8,9 @@ export class Item {
   @Field()
   name: string;
 
+  @Field()
+  description: string;
+
   @Field(() => Int)
   rarity: number;
 
