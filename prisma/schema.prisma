@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Camp {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(40)
+  zone       Int
+  location   Location @relation(fields: [locationId], references: [id])
+  locationId Int
+}
+
+model Item {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String @db.VarChar(255)
+  rarity      Int
+  carryLimit  Int
+  value       Int
+}
+
+model Location {
+  id        Int    @id @default(autoincrement())
+  name      String @unique @db.VarChar(40)
+  zoneCount Int
+  camps     Camp[]
+}
+
+model Skill {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique @db.VarChar(40)
+  description String      @db.VarChar(255)
+  ranks       SkillRank[]
+}
+
+model SkillRank {
+  id          Int    @id @default(autoincrement())
+  level       Int
+  description String @db.VarChar(255)
+  modifiers   Json?
+  skillName   String @db.VarChar(40)
+  Skill       Skill  @relation(fields: [skillId], references: [id])
+  skillId     Int
+}
+
+// model Monster {
+//   id          Int       @id @default(autoincrement())
+//   name        String    @unique
+//   type        String    @db.VarChar(10)
+//   species     String    @db.VarChar(20)
+//   description String    @db.VarChar(255)
+//   elements
+//   ailments    Ailment[]
+// }
+
+// model Ailment {
+//   id          Int      @id @default(autoincrement())
+//   name        String   @unique
+//   description String   @db.VarChar(255)
+//   Monster     Monster? @relation(fields: [monsterId], references: [id])
+//   monsterId   Int?
+// }
+
+// model Elements {
+
+// }
