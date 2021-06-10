@@ -1,6 +1,8 @@
-import { SkillsResolver } from './skills/skills.resolver';
+import { SkillResolver } from './skills/skill.resolver';
 import { NonEmptyArray } from 'type-graphql';
+import { LocationResolver } from './locations/location.resolver';
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
-  SkillsResolver,
+  SkillResolver,
+  LocationResolver,
 ];
