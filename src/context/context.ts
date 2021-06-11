@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient({ log: ['query'] });
+const options: any = process.env.NODE_ENV === 'dev' ? { log: ['query'] } : {};
+const prisma = new PrismaClient(options);
 
 export interface Context {
   prisma: PrismaClient;
