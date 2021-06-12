@@ -1,12 +1,23 @@
-import { Context } from '../../context/context';
-import { createPaginationOption } from '../../utils/CreatePaginationOption';
-import { Arg, Args, Ctx, Int, Query, Resolver } from 'type-graphql';
+import 'reflect-metadata';
+import {
+  Arg,
+  Args,
+  Ctx,
+  Int,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from 'type-graphql';
+import { createPaginationOption } from '../../utils/createPaginationOption';
+import { Context } from '../../types';
 import { ItemArgs } from './item.args';
 import { Item } from './item.model';
+import { RateLimit } from '../../middlewares/rateLimit';
 
 @Resolver()
 export class ItemResolver {
   @Query(() => Item, { nullable: true })
+  @UseMiddleware(RateLimit(100))
   async item(
     @Arg('id', () => Int) id: number,
     @Ctx() ctx: Context
@@ -15,6 +26,7 @@ export class ItemResolver {
   }
 
   @Query(() => [Item])
+  @UseMiddleware(RateLimit(100))
   async items(
     @Args() args: ItemArgs,
     @Ctx() ctx: Context
