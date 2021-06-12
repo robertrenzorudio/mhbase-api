@@ -7,10 +7,12 @@ import {
   Query,
   Resolver,
   Root,
+  UseMiddleware,
 } from 'type-graphql';
 import { Context } from '../../types';
 import { Skill } from './skill.model';
 import { SkillRank } from './skill-rank.model';
+import { RateLimit } from '../../middlewares/rateLimit';
 
 @Resolver(Skill)
 export class SkillResolver {
@@ -20,11 +22,13 @@ export class SkillResolver {
   }
 
   @Query(() => Skill, { nullable: true })
+  @UseMiddleware(RateLimit())
   async skill(@Arg('id', () => Int) id: number, @Ctx() ctx: Context) {
     return ctx.prisma.skill.findUnique({ where: { id: id } });
   }
 
   @Query(() => [Skill])
+  @UseMiddleware(RateLimit())
   async skills(@Ctx() ctx: Context) {
     return ctx.prisma.skill.findMany();
   }

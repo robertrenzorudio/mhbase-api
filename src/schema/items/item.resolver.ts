@@ -17,7 +17,7 @@ import { RateLimit } from '../../middlewares/rateLimit';
 @Resolver()
 export class ItemResolver {
   @Query(() => Item, { nullable: true })
-  @UseMiddleware(RateLimit(100))
+  @UseMiddleware(RateLimit())
   async item(
     @Arg('id', () => Int) id: number,
     @Ctx() ctx: Context
@@ -26,7 +26,7 @@ export class ItemResolver {
   }
 
   @Query(() => [Item])
-  @UseMiddleware(RateLimit(100))
+  @UseMiddleware(RateLimit())
   async items(
     @Args() args: ItemArgs,
     @Ctx() ctx: Context
