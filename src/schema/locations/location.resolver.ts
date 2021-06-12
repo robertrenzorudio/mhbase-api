@@ -1,5 +1,6 @@
 import {
   Arg,
+  Args,
   Ctx,
   FieldResolver,
   Int,
@@ -8,9 +9,11 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
+import { createPaginationOption } from '../../utils/createPaginationOption';
 import { RateLimit } from '../../middlewares/rateLimit';
 import { Context } from '../../types';
 import { Camp } from './camp.model';
+import { LocationArgs } from './location.args';
 import { Location } from './location.model';
 
 @Resolver(Location)
@@ -33,7 +36,17 @@ export class LocationResolver {
 
   @Query(() => [Location])
   @UseMiddleware(RateLimit())
-  async locations(@Ctx() ctx: Context) {
-    return ctx.prisma.location.findMany();
+  async locations(@Args() args: LocationArgs, @Ctx() ctx: Context) {
+    const paginationOpt = createPaginationOption({
+      take: args.take,
+      skip: args.skip,
+      before: args.before,
+      after: args.after,
+    });
+
+    return ctx.prisma.location.findMany({
+      ...paginationOpt,
+      where: { name: { contains: args.name } },
+    });
   }
 }
