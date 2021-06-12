@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { Context } from '../../context/context';
 import {
   Arg,
   Ctx,
@@ -9,6 +8,7 @@ import {
   Resolver,
   Root,
 } from 'type-graphql';
+import { Context } from '../../types';
 import { Skill } from './skill.model';
 import { SkillRank } from './skill-rank.model';
 

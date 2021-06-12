@@ -1,4 +1,3 @@
-import { Context } from 'src/context/context';
 import {
   Arg,
   Ctx,
@@ -8,6 +7,7 @@ import {
   Resolver,
   Root,
 } from 'type-graphql';
+import { Context } from '../../types';
 import { Camp } from './camp.model';
 import { Location } from './location.model';
 
