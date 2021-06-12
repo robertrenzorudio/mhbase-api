@@ -7,6 +7,7 @@
     "watch": "tsc -w",
     "start:dev": "NODE_ENV=dev nodemon dist/index.js",
     "start:prod": "NODE_ENV=prod node dist/index.js",
+    "prebuild": "rimraf dist",
     "build": "tsc"
   },
   "keywords": [],
@@ -14,11 +15,15 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^2.24.1",
+    "@types/ioredis": "^4.26.4",
     "apollo-server-express": "^2.25.1",
     "class-validator": "^0.13.1",
+    "dotenv": "^10.0.0",
     "graphql": "^15.5.0",
     "graphql-tools": "^7.0.5",
+    "ioredis": "^4.27.5",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
     "type-fest": "^1.2.0",
     "type-graphql": "^1.1.1"
   },
