@@ -42,9 +42,10 @@ export class ItemResolver {
     const where = args.query
       ? createItemWhereInput(args.query, args.itemSearchType)
       : undefined;
+
     return ctx.prisma.item.findMany({
       ...paginationOpt,
-      ...where,
+      where,
     });
   }
 }

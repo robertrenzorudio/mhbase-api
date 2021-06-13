@@ -1,5 +1,5 @@
 import { Length } from 'class-validator';
-import { ItemSearchType } from '../../enums/ItemSearchType';
+import { ItemSearchType } from '../../enums/';
 import { ArgsType, Field } from 'type-graphql';
 import { PaginationArgs } from '../pagination/pagination.args';
 
