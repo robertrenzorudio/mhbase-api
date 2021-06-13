@@ -9,8 +9,8 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
-import { createPaginationOptions } from '../../utils/createPaginationOptions';
-import { RateLimit } from '../../middlewares/rateLimit';
+import { createPaginationOptions } from '../../utils';
+import { RateLimit } from '../../middlewares';
 import { Context } from '../../types';
 import { Camp } from './camp.model';
 import { LocationArgs } from './location.args';

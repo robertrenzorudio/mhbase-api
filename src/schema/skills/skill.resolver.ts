@@ -13,8 +13,8 @@ import {
 import { Context } from '../../types';
 import { Skill } from './skill.model';
 import { SkillRank } from './skill-rank.model';
-import { RateLimit } from '../../middlewares/rateLimit';
-import { createPaginationOptions } from '../../utils/createPaginationOptions';
+import { RateLimit } from '../../middlewares';
+import { createPaginationOptions } from '../../utils';
 import { SkillArgs } from './skill.args';
 
 @Resolver(Skill)

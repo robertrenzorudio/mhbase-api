@@ -12,8 +12,9 @@ import { createPaginationOptions } from '../../utils/createPaginationOptions';
 import { Context } from '../../types';
 import { ItemArgs } from './item.args';
 import { Item } from './item.model';
-import { RateLimit, ErrorInterceptor } from '../../middlewares';
-import { createItemWhereInput } from '../../utils';
+import { RateLimit } from '../../middlewares/rateLimit';
+import { createItemWhereInput } from '../../utils/createWhereInput';
+import { ErrorInterceptor } from '../../middlewares/errorInterceptor';
 
 @Resolver()
 export class ItemResolver {
@@ -29,7 +30,7 @@ export class ItemResolver {
   @Query(() => [Item])
   @UseMiddleware(RateLimit(), ErrorInterceptor)
   async items(@Args() args: ItemArgs, @Ctx() ctx: Context): Promise<Item[]> {
-    // If cursor based: prioritize "after" if skip is also given.
+    // If cursor based: prioritize "after" if both is given.
     // If both cursor and skip is given, use cursor.
     const paginationOpt = createPaginationOptions({
       take: args.take,
@@ -41,7 +42,6 @@ export class ItemResolver {
     const where = args.query
       ? createItemWhereInput(args.query, args.itemSearchType)
       : undefined;
-
     return ctx.prisma.item.findMany({
       ...paginationOpt,
       where,
