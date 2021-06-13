@@ -1,4 +1,4 @@
-export const createPaginationOption = (options: {
+export const createPaginationOptions = (options: {
   take: number;
   skip?: number;
   before?: number;
