@@ -1,5 +1,10 @@
 import { getEntity } from './getEntity';
 import { createPaginationOptions } from './createPaginationOptions';
-import * as createWhereInput from './createWhereInput';
+import { createWhereInput, createItemWhereInput } from './createWhereInput';
 
-export { createPaginationOptions, createWhereInput, getEntity };
+export {
+  createPaginationOptions,
+  createWhereInput,
+  createItemWhereInput,
+  getEntity,
+};
