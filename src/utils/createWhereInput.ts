@@ -1,4 +1,19 @@
+import { EntityName } from '../enums';
 import { ItemSearchType } from '../enums/ItemSearchType';
+
+export const createWhereInput = (
+  entityName: EntityName,
+  query: string,
+  searchType?: any
+) => {
+  switch (entityName) {
+    case EntityName.Item:
+      return createItemWhereInput(query, searchType);
+
+    default:
+      return undefined;
+  }
+};
 
 export const createItemWhereInput = (
   query: string,
