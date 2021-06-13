@@ -14,7 +14,7 @@ import { Context } from '../../types';
 import { Skill } from './skill.model';
 import { SkillRank } from './skill-rank.model';
 import { RateLimit } from '../../middlewares/rateLimit';
-import { createPaginationOption } from '../../utils/createPaginationOption';
+import { createPaginationOptions } from '../../utils/createPaginationOptions';
 import { SkillArgs } from './skill.args';
 
 @Resolver(Skill)
@@ -33,7 +33,7 @@ export class SkillResolver {
   @Query(() => [Skill])
   @UseMiddleware(RateLimit())
   async skills(@Args() args: SkillArgs, @Ctx() ctx: Context) {
-    const paginationOpt = createPaginationOption({
+    const paginationOpt = createPaginationOptions({
       take: args.take,
       skip: args.skip,
       before: args.before,

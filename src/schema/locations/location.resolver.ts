@@ -9,7 +9,7 @@ import {
   Root,
   UseMiddleware,
 } from 'type-graphql';
-import { createPaginationOption } from '../../utils/createPaginationOption';
+import { createPaginationOptions } from '../../utils/createPaginationOptions';
 import { RateLimit } from '../../middlewares/rateLimit';
 import { Context } from '../../types';
 import { Camp } from './camp.model';
@@ -37,7 +37,7 @@ export class LocationResolver {
   @Query(() => [Location])
   @UseMiddleware(RateLimit())
   async locations(@Args() args: LocationArgs, @Ctx() ctx: Context) {
-    const paginationOpt = createPaginationOption({
+    const paginationOpt = createPaginationOptions({
       take: args.take,
       skip: args.skip,
       before: args.before,
