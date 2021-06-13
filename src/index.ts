@@ -1,13 +1,9 @@
-import { PrismaClient } from '@prisma/client';
 import { ApolloServer } from 'apollo-server-express';
+import { prisma } from './db';
 import express from 'express';
 import buildSchema from './schema';
 
 (async () => {
-  const prismaOptions: any =
-    process.env.NODE_ENV === 'dev' ? { log: ['query'] } : {};
-  const prisma = new PrismaClient(prismaOptions);
-
   const app = express();
   const schema = await buildSchema();
 
@@ -18,6 +14,7 @@ import buildSchema from './schema';
       res,
       prisma: prisma,
     }),
+    playground: true,
   });
 
   apolloServer.applyMiddleware({
@@ -33,4 +30,6 @@ import buildSchema from './schema';
   app.listen(port, () => {
     console.log(`🚀 Server ready at: http://localhost:${port}`);
   });
-})().catch((err) => console.log(err.message));
+})()
+  .catch((err) => console.log(err.message))
+  .finally(async () => prisma.$disconnect());
