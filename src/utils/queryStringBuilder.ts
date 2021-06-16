@@ -9,7 +9,14 @@ export interface findManyArgs {
 }
 
 const findMany = (args: findManyArgs) => {
-  const { entity, limit, before, after, name } = args;
+  let { entity, limit, before, after, name } = args;
+  if (before && typeof before === 'string') {
+    before = parseInt(before);
+  }
+  if (after && typeof after === 'string') {
+    after = parseInt(after);
+  }
+
   // Build the query string.
   let baseStmt: string = `SELECT * FROM "${entity}" `;
   let orderStmt = `ORDER BY "${entity}"."id" ASC `;
@@ -50,8 +57,11 @@ const findMany = (args: findManyArgs) => {
   return { query: queryString, values: values };
 };
 
-const findOne = (entity: EntityName, id?: number, name?: string) => {
+const findOne = (entity: EntityName, id?: number | string, name?: string) => {
   let queryString;
+  if (id && typeof id === 'string') {
+    id = parseInt(id);
+  }
   if (id) {
     queryString = `SELECT * FROM "${entity}" WHERE "${entity}"."id" = $1`;
   } else {

@@ -1,5 +1,5 @@
 import { Max, Min } from 'class-validator';
-import { ArgsType, Field, Int } from 'type-graphql';
+import { ArgsType, Field, ID, Int } from 'type-graphql';
 
 @ArgsType()
 export class PaginationArgs {
@@ -9,11 +9,9 @@ export class PaginationArgs {
   limit: number;
 
   // Cursor-based pagination
-  @Field(() => Int, { nullable: true })
-  @Min(0)
+  @Field(() => ID, { nullable: true })
   before?: number;
 
-  @Field(() => Int, { nullable: true })
-  @Min(0)
+  @Field(() => ID, { nullable: true })
   after?: number;
 }

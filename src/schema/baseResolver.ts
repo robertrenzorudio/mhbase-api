@@ -3,6 +3,7 @@ import {
   Arg,
   Args,
   ClassType,
+  ID,
   Int,
   Query,
   Resolver,
@@ -30,7 +31,7 @@ export function createBaseResolver<T extends ClassType, X extends ClassType>(
     })
     @UseMiddleware(RateLimit(), ErrorInterceptor)
     async findOne(
-      @Arg('id', () => Int, { nullable: true }) id?: number,
+      @Arg('id', () => ID, { nullable: true }) id?: number | string,
       @Arg('name', { nullable: true }) name?: string
     ): Promise<any> {
       const { query, value } = qsb.findOne(entity, id, name);
@@ -41,7 +42,7 @@ export function createBaseResolver<T extends ClassType, X extends ClassType>(
 
     @Query(() => [returnType], { name: `${name}s` })
     @UseMiddleware(RateLimit(), ErrorInterceptor)
-    async findMany(@Args(() => inputType) args: any): Promise<any> {
+    async findMany(@Args(() => inputType) args: any): Promise<any[]> {
       const { query, values } = qsb.findMany({
         entity: entity,
         limit: args.limit,
