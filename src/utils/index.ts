@@ -1,3 +1,3 @@
-import { queryStringBuilder } from './queryStringBuilder';
+import * as qsb from './queryStringBuilder';
 
-export { queryStringBuilder };
+export { qsb };
