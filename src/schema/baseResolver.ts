@@ -40,7 +40,7 @@ export function createBaseResolver<T extends ClassType, X extends ClassType>(
     }
 
     @Query(() => [returnType], { name: `${name}s` })
-    @UseMiddleware(RateLimit(10), ErrorInterceptor)
+    @UseMiddleware(RateLimit(), ErrorInterceptor)
     async findMany(@Args(() => inputType) args: any): Promise<any> {
       const { query, values } = qsb.findMany({
         entity: entity,
