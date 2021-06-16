@@ -62,7 +62,7 @@ test('Query.items', async () => {
 });
 
 test('Query.item', async () => {
-  const args = ['jang', 670, 'sin Cutw', 10, 54, -32];
+  const args = ['jang', 670, 'sin Cutw', 54, '**NOTEXIST**', -32];
   const types = args.map((arg) => typeof arg);
 
   let apiData = [];
