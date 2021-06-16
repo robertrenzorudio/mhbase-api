@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prewatch": "rimraf dist",
     "watch": "tsc -w",
     "start:dev": "NODE_ENV=dev nodemon dist/index.js",
     "start:prod": "NODE_ENV=production node dist/index.js",
