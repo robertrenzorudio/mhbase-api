@@ -5,7 +5,7 @@ import { Item } from './item.model';
 import { createBaseResolver } from '../baseResolver';
 import { EntityName } from '../../enums';
 
-const itemBaseResolver = createBaseResolver(
+const ItemBaseResolver = createBaseResolver(
   'item',
   Item,
   ItemArgs,
@@ -13,4 +13,4 @@ const itemBaseResolver = createBaseResolver(
 );
 
 @Resolver(Item)
-export class ItemResolver extends itemBaseResolver {}
+export class ItemResolver extends ItemBaseResolver {}

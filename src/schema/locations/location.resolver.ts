@@ -6,7 +6,7 @@ import { LocationArgs } from './location.args';
 import { Location } from './location.model';
 import { EntityName } from '../../enums';
 
-const locationBaseResolver = createBaseResolver(
+const LocationBaseResolver = createBaseResolver(
   'location',
   Location,
   LocationArgs,
@@ -14,7 +14,7 @@ const locationBaseResolver = createBaseResolver(
 );
 
 @Resolver(Location)
-export class LocationResolver extends locationBaseResolver {
+export class LocationResolver extends LocationBaseResolver {
   @FieldResolver()
   async camps(
     @Root() location: Location,
