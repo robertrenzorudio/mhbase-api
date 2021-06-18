@@ -24,6 +24,14 @@ type Cure {
   protections: [Skill!]!
 }
 
+type Decoration {
+  id: ID!
+  name: String!
+  rarity: Int!
+  skills: [SkillRank!]!
+  slot: Int!
+}
+
 type Item {
   carryLimit: Int!
   description: String!
@@ -49,6 +57,10 @@ type Query {
   """Find one ailment by id or name.If both is given, id will be used."""
   ailment(id: ID, name: String): Ailment
   ailments(after: ID, before: ID, limit: Int = 25, name: String): [Ailment!]!
+
+  """Find one decoration by id or name.If both is given, id will be used."""
+  decoration(id: ID, name: String): Decoration
+  decorations(after: ID, before: ID, limit: Int = 25, name: String): [Decoration!]!
 
   """Find one item by id or name.If both is given, id will be used."""
   item(id: ID, name: String): Item
