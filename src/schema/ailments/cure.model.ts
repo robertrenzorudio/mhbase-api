@@ -1,5 +1,6 @@
 import 'reflect-metadata';
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { RecoveryActionType } from '../../enums/recoveryActionType';
+import { Field, Int, ObjectType } from 'type-graphql';
 import { Item } from '../items/item.model';
 import { Skill } from '../skills/skill.model';
 
@@ -7,8 +8,8 @@ import { Skill } from '../skills/skill.model';
 export class Cure {
   readonly id: number;
 
-  @Field({ nullable: true })
-  action?: string;
+  @Field(() => RecoveryActionType, { nullable: true })
+  action?: RecoveryActionType;
 
   @Field(() => [Item])
   items: Item[];

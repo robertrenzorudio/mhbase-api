@@ -18,7 +18,7 @@ type Camp {
 }
 
 type Cure {
-  action: String
+  action: RecoveryActionType
   ailmentId: Int!
   items: [Item!]!
   protections: [Skill!]!
@@ -61,6 +61,12 @@ type Query {
   """Find one skill by id or name.If both is given, id will be used."""
   skill(id: ID, name: String): Skill
   skills(after: ID, before: ID, limit: Int = 25, name: String): [Skill!]!
+}
+
+"""The action needed to be performed to remove ailment."""
+enum RecoveryActionType {
+  Crouch
+  Dodge
 }
 
 type Skill {
