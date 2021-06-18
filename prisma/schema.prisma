@@ -34,6 +34,14 @@ model Cure {
   ailmentId   Int
 }
 
+model Decoration {
+  id     Int         @id @default(autoincrement())
+  name   String      @unique @db.VarChar(40)
+  rarity Int
+  slot   Int
+  skills SkillRank[]
+}
+
 model Item {
   id          Int    @id @default(autoincrement())
   name        String @unique @db.VarChar(40)
@@ -60,38 +68,17 @@ model Skill {
 }
 
 model SkillRank {
-  id          Int    @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   level       Int
-  description String @db.VarChar(255)
+  description String       @db.VarChar(255)
   modifiers   Json?
-  skillName   String @db.VarChar(40)
-  Skill       Skill  @relation(fields: [skillId], references: [id])
+  skillName   String       @db.VarChar(40)
+  Skill       Skill        @relation(fields: [skillId], references: [id])
   skillId     Int
+  decorations Decoration[]
 }
 
 enum RecoveryAction {
   Dodge
   Crouch
 }
-
-// model Monster {
-//   id          Int       @id @default(autoincrement())
-//   name        String    @unique
-//   type        String    @db.VarChar(10)
-//   species     String    @db.VarChar(20)
-//   description String    @db.VarChar(255)
-//   elements
-//   ailments    Ailment[]
-// }
-
-// model Ailment {
-//   id          Int      @id @default(autoincrement())
-//   name        String   @unique
-//   description String   @db.VarChar(255)
-//   Monster     Monster? @relation(fields: [monsterId], references: [id])
-//   monsterId   Int?
-// }
-
-// model Elements {
-
-// }

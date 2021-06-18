@@ -8,9 +8,11 @@
     "watch": "tsc -w",
     "start:dev": "NODE_ENV=dev nodemon dist/index.js",
     "start:prod": "NODE_ENV=production node dist/index.js",
+    "start:test": "jest",
     "prebuild": "rimraf dist",
-    "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "prisma:migrate": "prisma migrate dev --name",
+    "prisma:seed": "prisma db seed --preview-feature"
   },
   "keywords": [],
   "author": "",
