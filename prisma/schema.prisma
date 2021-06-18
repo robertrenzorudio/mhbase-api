@@ -10,6 +10,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Ailment {
+  id          Int    @id @default(autoincrement())
+  name        String @unique @db.VarChar(40)
+  description String @db.VarChar(255)
+  cure        Cure?
+}
+
 model Camp {
   id         Int      @id @default(autoincrement())
   name       String   @db.VarChar(40)
@@ -18,13 +25,23 @@ model Camp {
   locationId Int
 }
 
+model Cure {
+  id          Int             @id @default(autoincrement())
+  action      RecoveryAction?
+  items       Item[]
+  protections Skill[]
+  ailment     Ailment         @relation(fields: [ailmentId], references: [id])
+  ailmentId   Int
+}
+
 model Item {
   id          Int    @id @default(autoincrement())
-  name        String @unique
+  name        String @unique @db.VarChar(40)
   description String @db.VarChar(255)
   rarity      Int
   carryLimit  Int
   value       Int
+  cures       Cure[]
 }
 
 model Location {
@@ -39,6 +56,7 @@ model Skill {
   name        String      @unique @db.VarChar(40)
   description String      @db.VarChar(255)
   ranks       SkillRank[]
+  cures       Cure[]
 }
 
 model SkillRank {
@@ -49,6 +67,11 @@ model SkillRank {
   skillName   String @db.VarChar(40)
   Skill       Skill  @relation(fields: [skillId], references: [id])
   skillId     Int
+}
+
+enum RecoveryAction {
+  Dodge
+  Crouch
 }
 
 // model Monster {
