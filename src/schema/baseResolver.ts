@@ -4,7 +4,6 @@ import {
   Args,
   ClassType,
   ID,
-  Int,
   Query,
   Resolver,
   UseMiddleware,
