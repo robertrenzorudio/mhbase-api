@@ -1,53 +1,75 @@
 import { EntityName } from '../enums';
 
-export interface queryStringBuilderArgs {
+export interface findManyArgs {
   entity: EntityName;
-  take: number;
-  skip?: number;
+  limit: number;
   before?: number;
   after?: number;
-  query?: string;
-  searchType?: any;
+  name?: string;
 }
 
-export const queryStringBuilder = (args: queryStringBuilderArgs) => {
-  const { entity, take, skip, before, after, query, searchType } = args;
+const findMany = (args: findManyArgs) => {
+  let { entity, limit, before, after, name } = args;
+  if (before && typeof before === 'string') {
+    before = parseInt(before);
+  }
+  if (after && typeof after === 'string') {
+    after = parseInt(after);
+  }
+
   // Build the query string.
-  let base: string = `SELECT * FROM "${entity}" `;
-  let order = `ORDER BY "${entity}"."id" ASC `;
-  let where = '';
-  let limit = '';
-  let offset = '';
+  let baseStmt: string = `SELECT * FROM "${entity}" `;
+  let orderStmt = `ORDER BY "${entity}"."id" ASC `;
+  let whereStmt = '';
+  let limitStmt = '';
+  let values = [];
+  let valueNumber = 1;
 
   // Build WHERE statement
   if (after) {
-    where = `WHERE "${entity}"."id" >= ${after} `;
+    whereStmt = `WHERE "${entity}"."id" > \$${valueNumber++} `;
+    values.push(after);
   } else if (before) {
-    where = `WHERE "${entity}"."id" <= ${before} `;
-    order = `ORDER BY "${entity}"."id" DESC `;
+    whereStmt = `WHERE "${entity}"."id" < \$${valueNumber++} `;
+    orderStmt = `ORDER BY "${entity}"."id" DESC `;
+    values.push(before);
   }
 
-  if (query) {
-    const row = searchType ? searchType.toLowerCase() : 'name';
-
-    where = where
-      ? (where += `AND "${entity}"."${row}" LIKE '%${query}%' `)
-      : `WHERE "${entity}"."${row}" LIKE '%${query}%' `;
+  if (name) {
+    whereStmt = whereStmt
+      ? (whereStmt += `AND "${entity}"."name" LIKE \$${valueNumber++} `)
+      : `WHERE "${entity}"."name" LIKE \$${valueNumber++} `;
+    values.push(`%${name}%`);
   }
 
   // Build LIMIT statement.
-  limit = `LIMIT ${take} `;
-
-  // Build OFFSET statement.
-  offset = skip ? `OFFSET ${skip} ` : offset;
+  limitStmt = `LIMIT \$${valueNumber++} `;
+  values.push(limit);
 
   // Concatenate statements.
-  let queryString = base + where + order + limit + offset;
+  let queryString = baseStmt + whereStmt + orderStmt + limitStmt;
   if (!after && before) {
     queryString =
       `WITH "q0" AS (${queryString}) ` +
       `SELECT * FROM "q0" ORDER BY "q0"."id" ASC`;
   }
 
-  return queryString;
+  return { query: queryString, values: values };
 };
+
+const findOne = (entity: EntityName, id?: number | string, name?: string) => {
+  let queryString;
+  if (id && typeof id === 'string') {
+    id = parseInt(id);
+  }
+  if (id) {
+    queryString = `SELECT * FROM "${entity}" WHERE "${entity}"."id" = $1`;
+  } else {
+    queryString = `SELECT * FROM "${entity}" WHERE "${entity}"."name" LIKE $1`;
+  }
+
+  const value = id ? id : `%${name}%`;
+  return { query: queryString, value };
+};
+
+export { findOne, findMany };
