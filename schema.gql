@@ -6,7 +6,6 @@
 type Ailment {
   cure: Cure!
   description: String!
-  findOne(id: ID, name: String): Ailment!
   id: ID!
   name: String!
 }
@@ -28,7 +27,6 @@ type Cure {
 type Item {
   carryLimit: Int!
   description: String!
-  findOne(id: ID, name: String): Item!
   id: ID!
   name: String!
   rarity: Int!
@@ -37,7 +35,6 @@ type Item {
 
 type Location {
   camps: [Camp!]!
-  findOne(id: ID, name: String): Location!
   id: ID!
   name: String!
   zoneCount: Int!
@@ -68,7 +65,6 @@ type Query {
 
 type Skill {
   description: String!
-  findOne(id: ID, name: String): Skill!
   id: ID!
   name: String!
   ranks: [SkillRank!]!
