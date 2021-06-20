@@ -17,6 +17,5 @@ export class Cure {
   @Field(() => [Skill])
   protections: Skill[];
 
-  @Field(() => Int)
   ailmentId: number;
 }

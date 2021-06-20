@@ -8,7 +8,10 @@ export class Element {
 
   @Field()
   name: string;
+}
 
+@ObjectType()
+export class ElementInfo extends Element {
   @Field(() => [String], { description: 'Monsters who use the element' })
   monsters: string[];
 }
