@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Ctx, FieldResolver, Info, Resolver, Root } from 'type-graphql';
 import { createBaseResolver } from '../baseResolver';
 import { EntityName } from '../../enums';
-import { Ailment } from './ailment.model';
+import { AilmentInfo } from './ailment.model';
 import { AilmentArgs } from './ailment.args';
 import { Context } from '../../types';
 import { Cure } from './cure.model';
@@ -11,16 +11,16 @@ import { parseResolveInfo, ResolveTree } from 'graphql-parse-resolve-info';
 
 const AilmentBaseResolver = createBaseResolver(
   'ailment',
-  Ailment,
+  AilmentInfo,
   AilmentArgs,
   EntityName.Ailment
 );
 
-@Resolver(Ailment)
+@Resolver(AilmentInfo)
 export class AilmentResolver extends AilmentBaseResolver {
   @FieldResolver(() => Cure)
   async cure(
-    @Root() ailment: Ailment,
+    @Root() ailment: AilmentInfo,
     @Ctx() ctx: Context,
     @Info() info: GraphQLResolveInfo
   ) {

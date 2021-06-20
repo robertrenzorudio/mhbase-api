@@ -8,7 +8,10 @@ export class Ailment {
 
   @Field()
   name: string;
+}
 
+@ObjectType()
+export class AilmentInfo extends Ailment {
   @Field()
   description: string;
 
