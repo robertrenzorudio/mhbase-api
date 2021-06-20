@@ -7,7 +7,10 @@ export class Item {
 
   @Field()
   name: string;
+}
 
+@ObjectType()
+export class ItemInfo extends Item {
   @Field()
   description: string;
 
