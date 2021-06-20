@@ -34,7 +34,7 @@ export class MonsterResolver extends MonsterBaseResolver {
       .findUnique({
         where: { id: monster.id },
       })
-      .ailments();
+      .ailments({ select: { id: true, name: true } });
   }
 
   @FieldResolver(() => [Location])
