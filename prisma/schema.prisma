@@ -11,10 +11,11 @@ generator client {
 }
 
 model Ailment {
-  id          Int    @id @default(autoincrement())
-  name        String @unique @db.VarChar(40)
-  description String @db.VarChar(255)
+  id          Int       @id @default(autoincrement())
+  name        String    @unique @db.VarChar(40)
+  description String    @db.VarChar(255)
   cure        Cure?
+  monsters    Monster[]
 }
 
 model Camp {
@@ -42,21 +43,52 @@ model Decoration {
   skills SkillRank[]
 }
 
+model Element {
+  id      Int         @id @default(autoincrement())
+  name    ElementType
+  monster Monster[]
+}
+
 model Item {
-  id          Int    @id @default(autoincrement())
-  name        String @unique @db.VarChar(40)
-  description String @db.VarChar(255)
+  id          Int      @id @default(autoincrement())
+  name        String   @unique @db.VarChar(40)
+  description String   @db.VarChar(255)
   rarity      Int
   carryLimit  Int
   value       Int
   cures       Cure[]
+  rewards     Reward[]
 }
 
 model Location {
-  id        Int    @id @default(autoincrement())
-  name      String @unique @db.VarChar(40)
+  id        Int       @id @default(autoincrement())
+  name      String    @unique @db.VarChar(40)
   zoneCount Int
   camps     Camp[]
+  monsters  Monster[]
+}
+
+model Monster {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique @db.VarChar(40)
+  type        String     @db.VarChar(6)
+  species     String     @db.VarChar(15)
+  description String     @db.VarChar(400)
+  elements    Element[]
+  ailments    Ailment[]
+  locations   Location[]
+  resistances Json
+  weaknesses  Json
+  rewards     Reward[]
+}
+
+model Reward {
+  id         Int     @id @default(autoincrement())
+  conditions Json
+  item       Item    @relation(fields: [itemId], references: [id])
+  itemId     Int
+  monster    Monster @relation(fields: [monsterId], references: [id])
+  monsterId  Int
 }
 
 model Skill {
@@ -76,6 +108,19 @@ model SkillRank {
   Skill       Skill        @relation(fields: [skillId], references: [id])
   skillId     Int
   decorations Decoration[]
+}
+
+enum ElementType {
+  fire
+  water
+  ice
+  thunder
+  dragon
+  blast
+  poison
+  sleep
+  paralysis
+  stun
 }
 
 enum RecoveryAction {
