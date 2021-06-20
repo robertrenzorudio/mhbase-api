@@ -32,6 +32,14 @@ type Decoration {
   slot: Int!
 }
 
+type Element {
+  id: ID!
+
+  """Monsters who use the element"""
+  monsters: [String!]!
+  name: String!
+}
+
 type Item {
   carryLimit: Int!
   description: String!
@@ -61,6 +69,10 @@ type Query {
   """Find one decoration by id or name.If both is given, id will be used."""
   decoration(id: ID, name: String): Decoration
   decorations(after: ID, before: ID, limit: Int = 25, name: String): [Decoration!]!
+
+  """Find one element by id or name.If both is given, id will be used."""
+  element(id: ID, name: String): Element
+  elements(after: ID, before: ID, limit: Int = 25, name: String): [Element!]!
 
   """Find one item by id or name.If both is given, id will be used."""
   item(id: ID, name: String): Item
