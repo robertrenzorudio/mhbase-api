@@ -34,7 +34,7 @@ export class AilmentResolver extends AilmentBaseResolver {
       })
       .cure({
         include: {
-          items: !!Cure.items,
+          items: !!Cure.items ? { select: { id: true, name: true } } : false,
           protections: !!Cure.protections,
         },
       });
