@@ -3,5 +3,6 @@ export enum EntityName {
   Decoration = 'Decoration',
   Item = 'Item',
   Location = 'Location',
+  Monster = 'Monster',
   Skill = 'Skill',
 }
