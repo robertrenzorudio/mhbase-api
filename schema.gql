@@ -17,6 +17,14 @@ type Camp {
   zone: Int!
 }
 
+type Condition {
+  chance: Int!
+  quantity: Int!
+  rank: String!
+  subtype: String
+  type: String!
+}
+
 type Cure {
   action: RecoveryActionType
   ailmentId: Int!
@@ -61,6 +69,20 @@ The Modifier scalar is a JsonObject that describes the stat modifiers granted by
 """
 scalar Modifier
 
+type Monster {
+  ailments: [Ailment!]!
+  description: String!
+  elements: [Element!]!
+  id: ID!
+  locations: [Location!]!
+  name: String!
+  resistances: [Resistance!]!
+  rewards: [Reward!]!
+  species: String!
+  type: String!
+  weaknesses: [Weakness!]!
+}
+
 type Query {
   """Find one ailment by id or name.If both is given, id will be used."""
   ailment(id: ID, name: String): Ailment
@@ -82,6 +104,10 @@ type Query {
   location(id: ID, name: String): Location
   locations(after: ID, before: ID, limit: Int = 25, name: String): [Location!]!
 
+  """Find one monster by id or name.If both is given, id will be used."""
+  monster(id: ID, name: String): Monster
+  monsters(after: ID, before: ID, limit: Int = 25, name: String): [Monster!]!
+
   """Find one skill by id or name.If both is given, id will be used."""
   skill(id: ID, name: String): Skill
   skills(after: ID, before: ID, limit: Int = 25, name: String): [Skill!]!
@@ -91,6 +117,16 @@ type Query {
 enum RecoveryActionType {
   Crouch
   Dodge
+}
+
+type Resistance {
+  condition: String
+  element: String!
+}
+
+type Reward {
+  conditions: [Condition!]!
+  item: Item!
 }
 
 type Skill {
@@ -107,4 +143,10 @@ type SkillRank {
   modifiers: Modifier
   skillId: ID!
   skillName: String!
+}
+
+type Weakness {
+  condition: String
+  element: String!
+  stars: Int!
 }

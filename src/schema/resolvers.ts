@@ -4,6 +4,7 @@ import { DecorationResolver } from './decorations/decoration.resolver';
 import { ElementResolver } from './elements/element.resolver';
 import { ItemResolver } from './items/item.resolver';
 import { LocationResolver } from './locations/location.resolver';
+import { MonsterResolver } from './monsters/monster.resolver';
 import { SkillResolver } from './skills/skill.resolver';
 
 export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
@@ -12,5 +13,6 @@ export const resolvers: NonEmptyArray<Function> | NonEmptyArray<string> = [
   ElementResolver,
   ItemResolver,
   LocationResolver,
+  MonsterResolver,
   SkillResolver,
 ];
