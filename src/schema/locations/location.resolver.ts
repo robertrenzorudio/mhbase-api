@@ -1,6 +1,6 @@
 import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
 import { Context } from '../../types';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { LocationArgs } from './location.args';
 import { LocationInfo } from './location.model';
 import { EntityName } from '../../enums';

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Ctx, FieldResolver, Info, Resolver, Root } from 'type-graphql';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
 import { AilmentInfo } from './ailment.model';
 import { AilmentArgs } from './ailment.args';

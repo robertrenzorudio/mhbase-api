@@ -4,7 +4,7 @@ import { Context } from '../../types';
 import { SkillInfo } from './skill.model';
 import { SkillRankInfo } from './skill-rank.model';
 import { SkillArgs } from './skill.args';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
 import { GraphQLResolveInfo } from 'graphql';
 import {

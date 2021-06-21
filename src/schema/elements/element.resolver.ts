@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { EntityName } from '../../enums';
 import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { ElementArgs } from './element.args';
 import { ElementInfo } from './element.model';
 import { Context } from '../../types';
-import { Monster } from '@prisma/client';
+import { Monster } from '../monsters/monster.model';
 
 const ElementBaseResolver = createBaseResolver(
   'element',
@@ -16,7 +16,7 @@ const ElementBaseResolver = createBaseResolver(
 
 @Resolver(ElementInfo)
 export class ElementResolver extends ElementBaseResolver {
-  @FieldResolver()
+  @FieldResolver(() => [Monster])
   async monsters(@Root() element: ElementInfo, @Ctx() ctx: Context) {
     return ctx.prisma.element
       .findUnique({ where: { id: element.id } })

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Resolver } from 'type-graphql';
 import { ItemArgs } from './item.args';
 import { ItemInfo } from './item.model';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
 
 const ItemBaseResolver = createBaseResolver(

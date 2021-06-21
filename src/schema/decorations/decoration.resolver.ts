@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
 import { DecorationArgs } from './decoration.args';
 import { Decoration } from './decoration.model';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
 import { SkillRank } from '../skills/skill-rank.model';
 import { Context } from '../../types';

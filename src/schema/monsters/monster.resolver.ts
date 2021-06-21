@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { Context } from '../../types';
-import { Ctx, FieldResolver, Info, Resolver, Root } from 'type-graphql';
+import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
 import { EntityName } from '../../enums';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { MonsterArgs } from './monster.args';
 import { MonsterInfo } from './monster.model';
 import { Reward } from '../rewards/reward.model';
