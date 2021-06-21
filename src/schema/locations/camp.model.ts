@@ -3,7 +3,6 @@ import { Field, ID, Int, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class Camp {
-  @Field(() => ID)
   readonly id: number;
 
   @Field()
@@ -12,6 +11,5 @@ export class Camp {
   @Field(() => Int)
   zone: number;
 
-  @Field(() => ID)
   locationId: number;
 }

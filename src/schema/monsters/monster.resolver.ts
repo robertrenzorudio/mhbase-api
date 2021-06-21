@@ -25,7 +25,13 @@ export class MonsterResolver extends MonsterBaseResolver {
       .findUnique({
         where: { id: monster.id },
       })
-      .rewards({ select: { id: true, item: true, conditions: true } });
+      .rewards({
+        select: {
+          id: true,
+          item: { select: { id: true, name: true } },
+          conditions: true,
+        },
+      });
   }
 
   @FieldResolver(() => [Ailment])
@@ -43,7 +49,7 @@ export class MonsterResolver extends MonsterBaseResolver {
       .findUnique({
         where: { id: monster.id },
       })
-      .locations();
+      .locations({ select: { id: true, name: true } });
   }
 
   @FieldResolver(() => [Element])
@@ -52,6 +58,6 @@ export class MonsterResolver extends MonsterBaseResolver {
       .findUnique({
         where: { id: monster.id },
       })
-      .elements();
+      .elements({ select: { id: true, name: true } });
   }
 }
