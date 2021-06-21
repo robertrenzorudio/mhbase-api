@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class Camp {

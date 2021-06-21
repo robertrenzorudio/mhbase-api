@@ -15,6 +15,7 @@ import buildSchema from './schema';
       prisma: prisma,
     }),
     playground: true,
+    introspection: true,
   });
 
   apolloServer.applyMiddleware({
@@ -23,7 +24,7 @@ import buildSchema from './schema';
   });
 
   const port = process.env.PORT || 4000;
-  app.use('/', (req: express.Request, res: express.Response) => {
+  app.use('/', (_: express.Request, res: express.Response) => {
     res.send('Hello World!');
   });
 
