@@ -9,7 +9,10 @@ export class Location {
 
   @Field()
   name: string;
+}
 
+@ObjectType()
+export class LocationInfo extends Location {
   @Field(() => Int)
   zoneCount: number;
 

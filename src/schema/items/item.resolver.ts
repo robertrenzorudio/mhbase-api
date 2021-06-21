@@ -1,16 +1,16 @@
 import 'reflect-metadata';
 import { Resolver } from 'type-graphql';
 import { ItemArgs } from './item.args';
-import { Item } from './item.model';
-import { createBaseResolver } from '../baseResolver';
+import { ItemInfo } from './item.model';
+import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
 
 const ItemBaseResolver = createBaseResolver(
   'item',
-  Item,
+  ItemInfo,
   ItemArgs,
   EntityName.Item
 );
 
-@Resolver(Item)
+@Resolver(ItemInfo)
 export class ItemResolver extends ItemBaseResolver {}

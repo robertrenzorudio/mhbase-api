@@ -8,10 +8,10 @@ import {
   Resolver,
   UseMiddleware,
 } from 'type-graphql';
-import { RateLimit, ErrorInterceptor } from '../middlewares';
-import { EntityName } from '../enums';
-import { prisma } from '../db';
-import { qsb } from '../utils';
+import { RateLimit, ErrorInterceptor } from '../../middlewares';
+import { EntityName } from '../../enums';
+import { prisma } from '../../db';
+import { qsb } from '../../utils';
 
 export function createBaseResolver<T extends ClassType, X extends ClassType>(
   name: string,

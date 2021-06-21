@@ -1,30 +1,27 @@
 import 'reflect-metadata';
 import { EntityName } from '../../enums';
-import { Ctx, Field, FieldResolver, Resolver, Root } from 'type-graphql';
-import { createBaseResolver } from '../baseResolver';
+import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
+import { createBaseResolver } from '../shared';
 import { ElementArgs } from './element.args';
-import { Element } from './element.model';
+import { ElementInfo } from './element.model';
 import { Context } from '../../types';
+import { Monster } from '../monsters/monster.model';
 
 const ElementBaseResolver = createBaseResolver(
   'element',
-  Element,
+  ElementInfo,
   ElementArgs,
   EntityName.Element
 );
 
-@Resolver(Element)
+@Resolver(ElementInfo)
 export class ElementResolver extends ElementBaseResolver {
-  @FieldResolver()
-  async monsters(
-    @Root() element: Element,
-    @Ctx() ctx: Context
-  ): Promise<string[]> {
-    const data = await ctx.prisma.element
+  @FieldResolver(() => [Monster])
+  async monsters(@Root() element: ElementInfo, @Ctx() ctx: Context) {
+    return ctx.prisma.element
       .findUnique({ where: { id: element.id } })
       .monster({
-        select: { name: true },
+        select: { id: true, name: true },
       });
-    return data.map(({ name }) => name);
   }
 }

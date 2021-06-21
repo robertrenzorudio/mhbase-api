@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
 import { DecorationArgs } from './decoration.args';
 import { Decoration } from './decoration.model';
-import { createBaseResolver } from '../baseResolver';
+import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
 import { SkillRank } from '../skills/skill-rank.model';
 import { Context } from '../../types';
@@ -16,13 +16,10 @@ const ItemBaseResolver = createBaseResolver(
 
 @Resolver(Decoration)
 export class DecorationResolver extends ItemBaseResolver {
-  @FieldResolver()
-  async skills(
-    @Root() decoration: Decoration,
-    @Ctx() ctx: Context
-  ): Promise<SkillRank[]> {
+  @FieldResolver(() => [SkillRank])
+  async skills(@Root() decoration: Decoration, @Ctx() ctx: Context) {
     return ctx.prisma.decoration
       .findUnique({ where: { id: decoration.id } })
-      .skills();
+      .skills({ select: { level: true, skillId: true, skillName: true } });
   }
 }

@@ -4,6 +4,11 @@
 # -----------------------------------------------
 
 type Ailment {
+  id: ID!
+  name: String!
+}
+
+type AilmentInfo {
   cure: Cure!
   description: String!
   id: ID!
@@ -11,8 +16,6 @@ type Ailment {
 }
 
 type Camp {
-  id: ID!
-  locationId: ID!
   name: String!
   zone: Int!
 }
@@ -27,7 +30,6 @@ type Condition {
 
 type Cure {
   action: RecoveryActionType
-  ailmentId: Int!
   items: [Item!]!
   protections: [Skill!]!
 }
@@ -42,13 +44,23 @@ type Decoration {
 
 type Element {
   id: ID!
+  name: String!
+}
+
+type ElementInfo {
+  id: ID!
 
   """Monsters who use the element"""
-  monsters: [String!]!
+  monsters: [Monster!]!
   name: String!
 }
 
 type Item {
+  id: ID!
+  name: String!
+}
+
+type ItemInfo {
   carryLimit: Int!
   description: String!
   id: ID!
@@ -58,6 +70,11 @@ type Item {
 }
 
 type Location {
+  id: ID!
+  name: String!
+}
+
+type LocationInfo {
   camps: [Camp!]!
   id: ID!
   name: String!
@@ -70,6 +87,11 @@ The Modifier scalar is a JsonObject that describes the stat modifiers granted by
 scalar Modifier
 
 type Monster {
+  id: ID!
+  name: String!
+}
+
+type MonsterInfo {
   ailments: [Ailment!]!
   description: String!
   elements: [Element!]!
@@ -85,32 +107,32 @@ type Monster {
 
 type Query {
   """Find one ailment by id or name.If both is given, id will be used."""
-  ailment(id: ID, name: String): Ailment
-  ailments(after: ID, before: ID, limit: Int = 25, name: String): [Ailment!]!
+  ailment(id: ID, name: String): AilmentInfo
+  ailments(after: ID, before: ID, limit: Int = 25, name: String): [AilmentInfo!]!
 
   """Find one decoration by id or name.If both is given, id will be used."""
   decoration(id: ID, name: String): Decoration
   decorations(after: ID, before: ID, limit: Int = 25, name: String): [Decoration!]!
 
   """Find one element by id or name.If both is given, id will be used."""
-  element(id: ID, name: String): Element
-  elements(after: ID, before: ID, limit: Int = 25, name: String): [Element!]!
+  element(id: ID, name: String): ElementInfo
+  elements(after: ID, before: ID, limit: Int = 25, name: String): [ElementInfo!]!
 
   """Find one item by id or name.If both is given, id will be used."""
-  item(id: ID, name: String): Item
-  items(after: ID, before: ID, limit: Int = 25, name: String): [Item!]!
+  item(id: ID, name: String): ItemInfo
+  items(after: ID, before: ID, limit: Int = 25, name: String): [ItemInfo!]!
 
   """Find one location by id or name.If both is given, id will be used."""
-  location(id: ID, name: String): Location
-  locations(after: ID, before: ID, limit: Int = 25, name: String): [Location!]!
+  location(id: ID, name: String): LocationInfo
+  locations(after: ID, before: ID, limit: Int = 25, name: String): [LocationInfo!]!
 
   """Find one monster by id or name.If both is given, id will be used."""
-  monster(id: ID, name: String): Monster
-  monsters(after: ID, before: ID, limit: Int = 25, name: String): [Monster!]!
+  monster(id: ID, name: String): MonsterInfo
+  monsters(after: ID, before: ID, limit: Int = 25, name: String): [MonsterInfo!]!
 
   """Find one skill by id or name.If both is given, id will be used."""
-  skill(id: ID, name: String): Skill
-  skills(after: ID, before: ID, limit: Int = 25, name: String): [Skill!]!
+  skill(id: ID, name: String): SkillInfo
+  skills(after: ID, before: ID, limit: Int = 25, name: String): [SkillInfo!]!
 }
 
 """The action needed to be performed to remove ailment."""
@@ -130,15 +152,25 @@ type Reward {
 }
 
 type Skill {
+  id: ID!
+  name: String!
+}
+
+type SkillInfo {
   description: String!
   id: ID!
   name: String!
-  ranks: [SkillRank!]!
+  ranks: [SkillRankInfo!]!
 }
 
 type SkillRank {
+  level: Int!
+  skillId: ID!
+  skillName: String!
+}
+
+type SkillRankInfo {
   description: String!
-  id: ID!
   level: Int!
   modifiers: Modifier
   skillId: ID!

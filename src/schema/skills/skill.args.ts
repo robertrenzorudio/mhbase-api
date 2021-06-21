@@ -1,6 +1,6 @@
 import { Length } from 'class-validator';
 import { ArgsType, Field } from 'type-graphql';
-import { PaginationArgs } from '../pagination/pagination.args';
+import { PaginationArgs } from '../shared';
 
 @ArgsType()
 export class SkillArgs extends PaginationArgs {

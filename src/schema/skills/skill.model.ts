@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { SkillRank } from './skill-rank.model';
+import { SkillRankInfo } from './skill-rank.model';
 
 @ObjectType()
 export class Skill {
@@ -9,10 +9,13 @@ export class Skill {
 
   @Field()
   name: string;
+}
 
+@ObjectType()
+export class SkillInfo extends Skill {
   @Field()
   description: string;
 
-  @Field(() => [SkillRank])
-  ranks: SkillRank[];
+  @Field(() => [SkillRankInfo])
+  ranks: SkillRankInfo[];
 }

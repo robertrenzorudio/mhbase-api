@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { RecoveryActionType } from '../../enums/recoveryActionType';
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 import { Item } from '../items/item.model';
 import { Skill } from '../skills/skill.model';
 
@@ -17,6 +17,5 @@ export class Cure {
   @Field(() => [Skill])
   protections: Skill[];
 
-  @Field(() => Int)
   ailmentId: number;
 }

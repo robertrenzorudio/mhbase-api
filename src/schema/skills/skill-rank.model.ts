@@ -24,21 +24,23 @@ const ModifierScalar = new GraphQLScalarType({
 
 @ObjectType()
 export class SkillRank {
-  @Field(() => ID)
   id: number;
 
   @Field(() => Int)
   level: number;
 
   @Field()
-  description: string;
-
-  @Field(() => ModifierScalar, { nullable: true })
-  modifiers?: JsonValue;
-
-  @Field()
   skillName: string;
 
   @Field(() => ID)
   skillId: number;
+}
+
+@ObjectType()
+export class SkillRankInfo extends SkillRank {
+  @Field()
+  description: string;
+
+  @Field(() => ModifierScalar, { nullable: true })
+  modifiers?: JsonValue;
 }
