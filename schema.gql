@@ -131,8 +131,8 @@ type Query {
   monsters(after: ID, before: ID, limit: Int = 25, name: String): [MonsterInfo!]!
 
   """Find one skill by id or name.If both is given, id will be used."""
-  skill(id: ID, name: String): Skill
-  skills(after: ID, before: ID, limit: Int = 25, name: String): [Skill!]!
+  skill(id: ID, name: String): SkillInfo
+  skills(after: ID, before: ID, limit: Int = 25, name: String): [SkillInfo!]!
 }
 
 """The action needed to be performed to remove ailment."""
@@ -152,15 +152,25 @@ type Reward {
 }
 
 type Skill {
+  id: ID!
+  name: String!
+}
+
+type SkillInfo {
   description: String!
   id: ID!
   name: String!
-  ranks: [SkillRank!]!
+  ranks: [SkillRankInfo!]!
 }
 
 type SkillRank {
+  level: Int!
+  skillId: ID!
+  skillName: String!
+}
+
+type SkillRankInfo {
   description: String!
-  id: ID!
   level: Int!
   modifiers: Modifier
   skillId: ID!
