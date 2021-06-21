@@ -4,7 +4,7 @@ import { Ctx, FieldResolver, Info, Resolver, Root } from 'type-graphql';
 import { EntityName } from '../../enums';
 import { createBaseResolver } from '../baseResolver';
 import { MonsterArgs } from './monster.args';
-import { Monster } from './monster.model';
+import { MonsterInfo } from './monster.model';
 import { Reward } from '../rewards/reward.model';
 import { Ailment } from '../ailments/ailment.model';
 import { Location } from '../locations/location.model';
@@ -12,15 +12,15 @@ import { Element } from '../elements/element.model';
 
 const MonsterBaseResolver = createBaseResolver(
   'monster',
-  Monster,
+  MonsterInfo,
   MonsterArgs,
   EntityName.Monster
 );
 
-@Resolver(Monster)
+@Resolver(MonsterInfo)
 export class MonsterResolver extends MonsterBaseResolver {
   @FieldResolver(() => [Reward])
-  async rewards(@Root() monster: Monster, @Ctx() ctx: Context) {
+  async rewards(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },
@@ -35,7 +35,7 @@ export class MonsterResolver extends MonsterBaseResolver {
   }
 
   @FieldResolver(() => [Ailment])
-  async ailments(@Root() monster: Monster, @Ctx() ctx: Context) {
+  async ailments(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },
@@ -44,7 +44,7 @@ export class MonsterResolver extends MonsterBaseResolver {
   }
 
   @FieldResolver(() => [Location])
-  async locations(@Root() monster: Monster, @Ctx() ctx: Context) {
+  async locations(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },
@@ -53,7 +53,7 @@ export class MonsterResolver extends MonsterBaseResolver {
   }
 
   @FieldResolver(() => [Element])
-  async elements(@Root() monster: Monster, @Ctx() ctx: Context) {
+  async elements(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },

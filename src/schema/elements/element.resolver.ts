@@ -5,6 +5,7 @@ import { createBaseResolver } from '../baseResolver';
 import { ElementArgs } from './element.args';
 import { ElementInfo } from './element.model';
 import { Context } from '../../types';
+import { Monster } from '@prisma/client';
 
 const ElementBaseResolver = createBaseResolver(
   'element',
@@ -16,15 +17,11 @@ const ElementBaseResolver = createBaseResolver(
 @Resolver(ElementInfo)
 export class ElementResolver extends ElementBaseResolver {
   @FieldResolver()
-  async monsters(
-    @Root() element: ElementInfo,
-    @Ctx() ctx: Context
-  ): Promise<string[]> {
-    const data = await ctx.prisma.element
+  async monsters(@Root() element: ElementInfo, @Ctx() ctx: Context) {
+    return ctx.prisma.element
       .findUnique({ where: { id: element.id } })
       .monster({
-        select: { name: true },
+        select: { id: true, name: true },
       });
-    return data.map(({ name }) => name);
   }
 }

@@ -14,7 +14,10 @@ export class Monster {
 
   @Field()
   name: string;
+}
 
+@ObjectType()
+export class MonsterInfo extends Monster {
   @Field()
   type: string;
 

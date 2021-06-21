@@ -51,7 +51,7 @@ type ElementInfo {
   id: ID!
 
   """Monsters who use the element"""
-  monsters: [String!]!
+  monsters: [Monster!]!
   name: String!
 }
 
@@ -87,6 +87,11 @@ The Modifier scalar is a JsonObject that describes the stat modifiers granted by
 scalar Modifier
 
 type Monster {
+  id: ID!
+  name: String!
+}
+
+type MonsterInfo {
   ailments: [Ailment!]!
   description: String!
   elements: [Element!]!
@@ -122,8 +127,8 @@ type Query {
   locations(after: ID, before: ID, limit: Int = 25, name: String): [LocationInfo!]!
 
   """Find one monster by id or name.If both is given, id will be used."""
-  monster(id: ID, name: String): Monster
-  monsters(after: ID, before: ID, limit: Int = 25, name: String): [Monster!]!
+  monster(id: ID, name: String): MonsterInfo
+  monsters(after: ID, before: ID, limit: Int = 25, name: String): [MonsterInfo!]!
 
   """Find one skill by id or name.If both is given, id will be used."""
   skill(id: ID, name: String): Skill

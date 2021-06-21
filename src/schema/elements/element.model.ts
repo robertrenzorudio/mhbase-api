@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { Monster } from '../monsters/monster.model';
 
 @ObjectType()
 export class Element {
@@ -12,6 +13,6 @@ export class Element {
 
 @ObjectType()
 export class ElementInfo extends Element {
-  @Field(() => [String], { description: 'Monsters who use the element' })
-  monsters: string[];
+  @Field(() => [Monster], { description: 'Monsters who use the element' })
+  monsters: Monster[];
 }
