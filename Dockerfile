@@ -6,16 +6,18 @@ COPY ./package.json ./
 
 COPY ./yarn.lock ./
 
+COPY ./prisma ./prisma
+
 RUN yarn
 
 COPY . .
 
-COPY .env.prod .env
+COPY .env.production .env
 
 RUN yarn build
 
-RUN npx prisma generate
+ENV NODE_ENV production
 
-EXPOSE 4000
+EXPOSE 8080
 
 CMD ["yarn", "start:prod"]
