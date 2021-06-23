@@ -22,5 +22,3 @@ export class LocationResolver extends LocationBaseResolver {
       .camps({ select: { name: true, zone: true } });
   }
 }
-//SELECT "public"."Camp"."id", "public"."Camp"."name", "public"."Camp"."zone", "public"."Camp"."locationId" FROM "public"."Camp" WHERE "public"."Camp"."locationId" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) OFFSET $15
-//SELECT "public"."Camp"."id", "public"."Camp"."name", "public"."Camp"."zone", "public"."Camp"."locationId" FROM "public"."Camp" WHERE "public"."Camp"."locationId" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) OFFSET $15
