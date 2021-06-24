@@ -5,9 +5,13 @@ export const ErrorInterceptor: MiddlewareFn = async (_, next) => {
   try {
     return await next();
   } catch (err) {
+    if ((err.message = 'Argument Validation Error')) {
+      throw err;
+    }
+
     let message;
     let code;
-    if (err.code.match(/^[P][0-9]{4}$/)) {
+    if (err.code && err.code.match(/^[P][0-9]{4}$/)) {
       message =
         'Internal server error. Please try again later when we fixed the problem';
       code = '500';
