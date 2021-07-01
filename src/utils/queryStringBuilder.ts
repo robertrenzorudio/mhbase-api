@@ -2,53 +2,40 @@ import { EntityName } from '../enums';
 
 export interface findManyArgs {
   entity: EntityName;
-  limit: number;
   before?: number;
   after?: number;
-  name?: string;
+  first?: number;
+  last?: number;
 }
 
 const findMany = (args: findManyArgs) => {
-  let { entity, limit, before, after, name } = args;
-  if (before && typeof before === 'string') {
-    before = parseInt(before);
-  }
-  if (after && typeof after === 'string') {
-    after = parseInt(after);
-  }
+  const { entity, before, after, first, last } = args;
 
   // Build the query string.
-  let baseStmt: string = `SELECT * FROM "${entity}" `;
-  let orderStmt = `ORDER BY "${entity}"."id" ASC `;
-  let whereStmt = '';
-  let limitStmt = '';
-  let values = [];
   let valueNumber = 1;
+  let values = [];
 
-  // Build WHERE statement
-  if (after) {
-    whereStmt = `WHERE "${entity}"."id" > \$${valueNumber++} `;
-    values.push(after);
-  } else if (before) {
-    whereStmt = `WHERE "${entity}"."id" < \$${valueNumber++} `;
-    orderStmt = `ORDER BY "${entity}"."id" DESC `;
-    values.push(before);
+  let selectStmt: string = `SELECT * FROM "${entity}" `;
+
+  // Build the WHERE statement.
+  let whereStmt = '';
+  if (before || after) {
+    whereStmt = `WHERE "${entity}"."id" ${
+      after ? '>' : '<'
+    } \$${valueNumber++} `;
+    values.push(after || before);
   }
 
-  if (name) {
-    whereStmt = whereStmt
-      ? (whereStmt += `AND "${entity}"."name" LIKE \$${valueNumber++} `)
-      : `WHERE "${entity}"."name" LIKE \$${valueNumber++} `;
-    values.push(`%${name}%`);
-  }
+  // Build the ORDER statement.
+  let orderStmt = `ORDER BY "${entity}"."id" ${last ? 'DESC' : 'ASC'} `;
 
   // Build LIMIT statement.
-  limitStmt = `LIMIT \$${valueNumber++} `;
-  values.push(limit);
+  let limitStmt = `LIMIT \$${valueNumber++} `;
+  values.push(first || last);
 
   // Concatenate statements.
-  let queryString = baseStmt + whereStmt + orderStmt + limitStmt;
-  if (!after && before) {
+  let queryString = selectStmt + whereStmt + orderStmt + limitStmt;
+  if (last) {
     queryString =
       `WITH "q0" AS (${queryString}) ` +
       `SELECT * FROM "q0" ORDER BY "q0"."id" ASC`;
