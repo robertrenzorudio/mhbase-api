@@ -1,17 +1,26 @@
-import { Max, Min } from 'class-validator';
-import { ArgsType, Field, ID, Int } from 'type-graphql';
+import { Length, Max, Min } from 'class-validator';
+import { cursorHash } from '../../utils/';
+import { ArgsType, Field, Int } from 'type-graphql';
+
+const { minCursorLenght } = cursorHash;
 
 @ArgsType()
 export class PaginationArgs {
-  @Field(() => Int, { defaultValue: 25 })
+  @Field(() => Int, { nullable: true })
   @Min(1)
-  @Max(50)
-  limit: number;
+  @Max(100)
+  first?: number;
 
-  // Cursor-based pagination
-  @Field(() => ID, { nullable: true })
-  before?: number;
+  @Field(() => Int, { nullable: true })
+  @Min(1)
+  @Max(100)
+  last?: number;
 
-  @Field(() => ID, { nullable: true })
-  after?: number;
+  @Field({ nullable: true })
+  @Length(minCursorLenght)
+  before?: string;
+
+  @Field({ nullable: true })
+  @Length(minCursorLenght)
+  after?: string;
 }
