@@ -1,5 +1,5 @@
 import * as qsb from './queryStringBuilder';
 import * as cursorHash from './cursorHash';
-import { createConnectionReturn } from './createConnectionReturn';
+import { createConnectionResponse } from './createConnectionResponse';
 
-export { qsb, cursorHash, createConnectionReturn };
+export { qsb, cursorHash, createConnectionResponse };

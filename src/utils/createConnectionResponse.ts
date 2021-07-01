@@ -30,7 +30,7 @@ interface createConnectionArgs<T extends BaseModel> {
   before?: string;
   after?: string;
 }
-export const createConnectionReturn = async <T extends BaseModel>(
+export const createConnectionResponse = async <T extends BaseModel>(
   args: createConnectionArgs<T>
 ) => {
   const { data, first, last } = args;
@@ -89,7 +89,7 @@ const _hasNextPage = async <T extends BaseModel>(
     } else {
       return +maxId !== data.slice(-1)[0].id;
     }
-  } else if (first && !before) {
+  } else if (first) {
     return data.length > first;
   }
 
