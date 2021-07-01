@@ -5,7 +5,7 @@ export const ErrorInterceptor: MiddlewareFn = async (_, next) => {
   try {
     return await next();
   } catch (err) {
-    if ((err.message = 'Argument Validation Error')) {
+    if (err.message === 'Argument Validation Error') {
       throw err;
     }
 
@@ -19,7 +19,6 @@ export const ErrorInterceptor: MiddlewareFn = async (_, next) => {
       message = err.message;
       code = err.code;
     }
-
     throw new ApolloError(message, code, err.extensions);
   }
 };
