@@ -4,7 +4,7 @@ import { Ailment } from '../ailments/ailment.type';
 import { Element } from '../elements/element.type';
 import { Location } from '../locations/location.type';
 import { Reward } from '../rewards/reward.type';
-import { BaseType } from '../shared/BaseType';
+import { BaseType } from '../shared/baseType';
 import { BaseConnection } from '../shared/pageResponse.type';
 import { Resistance } from './resistance.type';
 import { Weakness } from './weakness.type';

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Field, ObjectType } from 'type-graphql';
 import { Monster } from '../monsters/monster.type';
-import { BaseType } from '../shared/BaseType';
+import { BaseType } from '../shared/baseType';
 import { BaseConnection } from '../shared/pageResponse.type';
 
 @ObjectType({ implements: BaseType })

@@ -1,5 +1,5 @@
 require('dotenv').config();
-import { BaseType } from '../schema/shared/BaseType';
+import { BaseType } from '../schema/shared/baseType';
 import { cursorHash } from '.';
 import { Context } from '../types';
 import { EntityName } from 'src/enums';

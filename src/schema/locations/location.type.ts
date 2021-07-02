@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Field, Int, ObjectType } from 'type-graphql';
-import { BaseType } from '../shared/BaseType';
+import { BaseType } from '../shared/baseType';
 import { BaseConnection } from '../shared/pageResponse.type';
 import { Camp } from './camp.type';
 

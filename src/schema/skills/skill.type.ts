@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Field, ObjectType } from 'type-graphql';
-import { BaseType } from '../shared/BaseType';
+import { BaseType } from '../shared/baseType';
 import { BaseConnection } from '../shared/pageResponse.type';
 import { SkillRank } from './skill-rank.type';
 
