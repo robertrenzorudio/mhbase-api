@@ -1,10 +1,5 @@
-import { Length } from 'class-validator';
-import { ArgsType, Field } from 'type-graphql';
+import { ArgsType } from 'type-graphql';
 import { PaginationArgs } from '../shared';
 
 @ArgsType()
-export class ItemArgs extends PaginationArgs {
-  @Field({ nullable: true })
-  @Length(1)
-  name?: string;
-}
+export class ItemArgs extends PaginationArgs {}

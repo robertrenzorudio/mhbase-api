@@ -3,20 +3,32 @@ import {
   Arg,
   Args,
   ClassType,
+  Ctx,
   ID,
   Query,
   Resolver,
   UseMiddleware,
 } from 'type-graphql';
-import { RateLimit, ErrorInterceptor } from '../../middlewares';
+import {
+  RateLimit,
+  ErrorInterceptor,
+  ValidatePaginationArgs,
+} from '../../middlewares';
 import { EntityName } from '../../enums';
 import { prisma } from '../../db';
-import { qsb } from '../../utils';
+import { qsb, cursorHash, createConnectionResponse } from '../../utils';
+import { Context } from '../../types';
+import { PaginationArgs } from './pagination.args';
 
-export function createBaseResolver<T extends ClassType, X extends ClassType>(
+export function createBaseResolver<
+  T extends ClassType,
+  X extends ClassType,
+  Y extends ClassType
+>(
   name: string,
   returnType: T,
-  inputType: X,
+  connectionType: X,
+  inputType: Y,
   entity: EntityName
 ) {
   @Resolver({ isAbstract: true })
@@ -39,20 +51,44 @@ export function createBaseResolver<T extends ClassType, X extends ClassType>(
       return res.length ? res[0] : null;
     }
 
-    @Query(() => [returnType], { name: `${name}s` })
-    @UseMiddleware(RateLimit(), ErrorInterceptor)
-    async findMany(@Args(() => inputType) args: any): Promise<any[]> {
-      const { query, values } = qsb.findMany({
-        entity: entity,
-        limit: args.limit,
-        before: args.before,
-        after: args.after,
-        name: args.name,
-      });
+    @Query(() => connectionType, { name: `${name}s` })
+    @UseMiddleware(ErrorInterceptor, ValidatePaginationArgs, RateLimit())
+    async findMany(
+      @Args(() => inputType) args: PaginationArgs,
+      @Ctx() ctx: Context
+    ): Promise<any> {
+      let { first, last, before, after } = args;
+      let findManyArgs: qsb.findManyArgs = { entity };
 
-      return prisma.$queryRaw(query, ...values);
+      if (first) {
+        findManyArgs.first = first + 1;
+      } else if (last) {
+        findManyArgs.last = last + 1;
+      }
+
+      if (before) {
+        if (isNaN((findManyArgs.before = +cursorHash.hashToCursor(before)))) {
+          throw { message: `Cursor "${before}" is invalid.`, code: '404' };
+        }
+      } else if (after) {
+        if (isNaN((findManyArgs.after = +cursorHash.hashToCursor(after)))) {
+          throw { message: `Cursor "${after}" is invalid.`, code: '404' };
+        }
+      }
+
+      const { query, values } = qsb.findMany(findManyArgs);
+
+      const data = await prisma.$queryRaw(query, ...values);
+      return createConnectionResponse({
+        ctx,
+        data,
+        entity,
+        first,
+        last,
+        before,
+        after,
+      });
     }
   }
-
   return BaseResolver;
 }

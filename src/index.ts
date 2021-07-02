@@ -1,18 +1,20 @@
 import { ApolloServer } from 'apollo-server-express';
 import { prisma } from './db';
 import express from 'express';
-import buildSchema from './schema';
+import getSchema from './schema';
+import { redis } from './redis/redis';
 
 (async () => {
   const app = express();
-  const schema = await buildSchema();
+  const schema = await getSchema();
 
   const apolloServer = new ApolloServer({
     schema: schema,
     context: ({ req, res }) => ({
       req,
       res,
-      prisma: prisma,
+      prisma,
+      redis,
     }),
     playground: true,
     introspection: true,
@@ -25,7 +27,7 @@ import buildSchema from './schema';
 
   const port = process.env.PORT || 4000;
   app.use('/', (_: express.Request, res: express.Response) => {
-    res.send('Hello World!');
+    res.redirect(302, '/graphql');
   });
 
   app.listen(port, () => {
