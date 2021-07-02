@@ -34,10 +34,7 @@ export class SkillRank {
 
   @Field(() => ID)
   skillId: number;
-}
 
-@ObjectType()
-export class SkillRankInfo extends SkillRank {
   @Field()
   description: string;
 

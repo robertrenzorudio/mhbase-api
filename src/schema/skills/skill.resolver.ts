@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { Ctx, FieldResolver, Info, Resolver, Root } from 'type-graphql';
 import { Context } from '../../types';
-import { SkillInfo } from './skill.model';
-import { SkillRankInfo } from './skill-rank.model';
+import { Skill, SkillConnection } from './skill.type';
+import { SkillRank } from './skill-rank.type';
 import { SkillArgs } from './skill.args';
 import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
@@ -15,25 +15,26 @@ import {
 
 const SkillBaseResolver = createBaseResolver(
   'skill',
-  SkillInfo,
+  Skill,
+  SkillConnection,
   SkillArgs,
   EntityName.Skill
 );
 
-@Resolver(SkillInfo)
+@Resolver(Skill)
 export class SkillResolver extends SkillBaseResolver {
   skillRankSelect: ResolveTree | undefined = undefined;
-  @FieldResolver(() => [SkillRankInfo])
+  @FieldResolver(() => [SkillRank])
   async ranks(
-    @Root() skill: SkillInfo,
+    @Root() skill: Skill,
     @Ctx() ctx: Context,
     @Info() info: GraphQLResolveInfo
   ) {
     if (!this.skillRankSelect) {
       const {
-        fieldsByTypeName: { SkillRankInfo },
+        fieldsByTypeName: { SkillRank },
       } = parseResolveInfo(info) as FieldsByTypeName;
-      this.skillRankSelect = SkillRankInfo;
+      this.skillRankSelect = SkillRank;
     }
 
     const ranks = await ctx.prisma.skill

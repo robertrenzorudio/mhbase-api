@@ -1,21 +1,20 @@
 import 'reflect-metadata';
-import { Field, ID, ObjectType } from 'type-graphql';
-import { SkillRankInfo } from './skill-rank.model';
+import { Field, ObjectType } from 'type-graphql';
+import { BaseType } from '../shared/BaseType';
+import { BaseConnection } from '../shared/pageResponse.type';
+import { SkillRank } from './skill-rank.type';
 
-@ObjectType()
-export class Skill {
-  @Field(() => ID)
-  readonly id: number;
-
+@ObjectType({ implements: BaseType })
+export class Skill extends BaseType {
   @Field()
   name: string;
-}
 
-@ObjectType()
-export class SkillInfo extends Skill {
   @Field()
   description: string;
 
-  @Field(() => [SkillRankInfo])
-  ranks: SkillRankInfo[];
+  @Field(() => [SkillRank])
+  ranks: SkillRank[];
 }
+
+@ObjectType()
+export class SkillConnection extends BaseConnection<Skill>(Skill) {}
