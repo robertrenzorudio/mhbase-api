@@ -3,16 +3,26 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Ailment {
-  id: ID!
-  name: String!
-}
-
-type AilmentInfo {
+type Ailment implements BaseType {
   cure: Cure!
   description: String!
   id: ID!
   name: String!
+}
+
+type AilmentConnection {
+  edges: [AilmentEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type AilmentEdge {
+  cursor: String!
+  node: Ailment!
+}
+
+interface BaseType {
+  id: ID!
 }
 
 type Camp {
@@ -34,7 +44,7 @@ type Cure {
   protections: [Skill!]!
 }
 
-type Decoration {
+type Decoration implements BaseType {
   id: ID!
   name: String!
   rarity: Int!
@@ -42,12 +52,18 @@ type Decoration {
   slot: Int!
 }
 
-type Element {
-  id: ID!
-  name: String!
+type DecorationConnection {
+  edges: [DecorationEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
-type ElementInfo {
+type DecorationEdge {
+  cursor: String!
+  node: Decoration!
+}
+
+type Element implements BaseType {
   id: ID!
 
   """Monsters who use the element"""
@@ -55,12 +71,18 @@ type ElementInfo {
   name: String!
 }
 
-type Item {
-  id: ID!
-  name: String!
+type ElementConnection {
+  edges: [ElementEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
-type ItemInfo {
+type ElementEdge {
+  cursor: String!
+  node: Element!
+}
+
+type Item implements BaseType {
   carryLimit: Int!
   description: String!
   id: ID!
@@ -69,16 +91,33 @@ type ItemInfo {
   value: Int!
 }
 
-type Location {
-  id: ID!
-  name: String!
+type ItemConnection {
+  edges: [ItemEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
-type LocationInfo {
+type ItemEdge {
+  cursor: String!
+  node: Item!
+}
+
+type Location implements BaseType {
   camps: [Camp!]!
   id: ID!
   name: String!
   zoneCount: Int!
+}
+
+type LocationConnection {
+  edges: [LocationEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type LocationEdge {
+  cursor: String!
+  node: Location!
 }
 
 """
@@ -86,12 +125,7 @@ The Modifier scalar is a JsonObject that describes the stat modifiers granted by
 """
 scalar Modifier
 
-type Monster {
-  id: ID!
-  name: String!
-}
-
-type MonsterInfo {
+type Monster implements BaseType {
   ailments: [Ailment!]!
   description: String!
   elements: [Element!]!
@@ -105,34 +139,52 @@ type MonsterInfo {
   weaknesses: [Weakness!]!
 }
 
+type MonsterConnection {
+  edges: [MonsterEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type MonsterEdge {
+  cursor: String!
+  node: Monster!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
 type Query {
   """Find one ailment by id or name.If both is given, id will be used."""
-  ailment(id: ID, name: String): AilmentInfo
-  ailments(after: ID, before: ID, limit: Int = 25, name: String): [AilmentInfo!]!
+  ailment(id: ID, name: String): Ailment
+  ailments(after: String, before: String, first: Int, last: Int): AilmentConnection!
 
   """Find one decoration by id or name.If both is given, id will be used."""
   decoration(id: ID, name: String): Decoration
-  decorations(after: ID, before: ID, limit: Int = 25, name: String): [Decoration!]!
+  decorations(after: String, before: String, first: Int, last: Int): DecorationConnection!
 
   """Find one element by id or name.If both is given, id will be used."""
-  element(id: ID, name: String): ElementInfo
-  elements(after: ID, before: ID, limit: Int = 25, name: String): [ElementInfo!]!
+  element(id: ID, name: String): Element
+  elements(after: String, before: String, first: Int, last: Int): ElementConnection!
 
   """Find one item by id or name.If both is given, id will be used."""
-  item(id: ID, name: String): ItemInfo
-  items(after: ID, before: ID, limit: Int = 25, name: String): [ItemInfo!]!
+  item(id: ID, name: String): Item
+  items(after: String, before: String, first: Int, last: Int): ItemConnection!
 
   """Find one location by id or name.If both is given, id will be used."""
-  location(id: ID, name: String): LocationInfo
-  locations(after: ID, before: ID, limit: Int = 25, name: String): [LocationInfo!]!
+  location(id: ID, name: String): Location
+  locations(after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Find one monster by id or name.If both is given, id will be used."""
-  monster(id: ID, name: String): MonsterInfo
-  monsters(after: ID, before: ID, limit: Int = 25, name: String): [MonsterInfo!]!
+  monster(id: ID, name: String): Monster
+  monsters(after: String, before: String, first: Int, last: Int): MonsterConnection!
 
   """Find one skill by id or name.If both is given, id will be used."""
-  skill(id: ID, name: String): SkillInfo
-  skills(after: ID, before: ID, limit: Int = 25, name: String): [SkillInfo!]!
+  skill(id: ID, name: String): Skill
+  skills(after: String, before: String, first: Int, last: Int): SkillConnection!
 }
 
 """The action needed to be performed to remove ailment."""
@@ -151,25 +203,25 @@ type Reward {
   item: Item!
 }
 
-type Skill {
-  id: ID!
-  name: String!
-}
-
-type SkillInfo {
+type Skill implements BaseType {
   description: String!
   id: ID!
   name: String!
-  ranks: [SkillRankInfo!]!
+  ranks: [SkillRank!]!
+}
+
+type SkillConnection {
+  edges: [SkillEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type SkillEdge {
+  cursor: String!
+  node: Skill!
 }
 
 type SkillRank {
-  level: Int!
-  skillId: ID!
-  skillName: String!
-}
-
-type SkillRankInfo {
   description: String!
   level: Int!
   modifiers: Modifier

@@ -1,18 +1,17 @@
 import 'reflect-metadata';
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Monster } from '../monsters/monster.model';
+import { Field, ObjectType } from 'type-graphql';
+import { Monster } from '../monsters/monster.type';
+import { BaseType } from '../shared/BaseType';
+import { BaseConnection } from '../shared/pageResponse.type';
 
-@ObjectType()
-export class Element {
-  @Field(() => ID)
-  readonly id: number;
-
+@ObjectType({ implements: BaseType })
+export class Element extends BaseType {
   @Field()
   name: string;
-}
 
-@ObjectType()
-export class ElementInfo extends Element {
   @Field(() => [Monster], { description: 'Monsters who use the element' })
   monsters: Monster[];
 }
+
+@ObjectType()
+export class ElementConnection extends BaseConnection<Element>(Element) {}
