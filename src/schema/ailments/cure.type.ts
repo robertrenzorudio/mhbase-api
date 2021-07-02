@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { RecoveryActionType } from '../../enums/recoveryActionType';
 import { Field, ObjectType } from 'type-graphql';
-import { Item } from '../items/item.model';
+import { Item } from '../items/item.type';
 import { Skill } from '../skills/skill.model';
 
 @ObjectType()

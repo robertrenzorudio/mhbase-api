@@ -1,6 +1,6 @@
 import { Field, ObjectType } from 'type-graphql';
-import { Item } from '../items/item.model';
-import { Condition } from './condition.model';
+import { Item } from '../items/item.type';
+import { Condition } from './condition.type';
 
 @ObjectType()
 export class Reward {
