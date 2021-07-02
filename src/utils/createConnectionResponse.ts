@@ -1,4 +1,4 @@
-import { BaseModel } from '../schema/shared/baseModel';
+import { BaseType } from '../schema/shared/BaseType';
 import { cursorHash } from '.';
 import { Context } from '../types';
 import { EntityName } from 'src/enums';
@@ -21,7 +21,7 @@ const emptyResponse = {
   },
 };
 
-interface createConnectionArgs<T extends BaseModel> {
+interface createConnectionArgs<T extends BaseType> {
   ctx: Context;
   data: T[];
   entity: EntityName;
@@ -30,7 +30,7 @@ interface createConnectionArgs<T extends BaseModel> {
   before?: string;
   after?: string;
 }
-export const createConnectionResponse = async <T extends BaseModel>(
+export const createConnectionResponse = async <T extends BaseType>(
   args: createConnectionArgs<T>
 ) => {
   const { data, first, last } = args;
@@ -71,7 +71,7 @@ export const createConnectionResponse = async <T extends BaseModel>(
   };
 };
 
-const _hasNextPage = async <T extends BaseModel>(
+const _hasNextPage = async <T extends BaseType>(
   args: createConnectionArgs<T>
 ) => {
   const { ctx, data, entity, first, before } = args;
@@ -95,7 +95,7 @@ const _hasNextPage = async <T extends BaseModel>(
   return false;
 };
 
-const _hasPreviousPage = async <T extends BaseModel>(
+const _hasPreviousPage = async <T extends BaseType>(
   args: createConnectionArgs<T>
 ) => {
   const { ctx, data, entity, last, after } = args;

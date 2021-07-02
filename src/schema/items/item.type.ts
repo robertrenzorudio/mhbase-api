@@ -1,9 +1,9 @@
 import { Field, Int, ObjectType } from 'type-graphql';
-import { BaseModel } from '../shared/baseModel';
-import { BaseConnection } from '../shared/pageResponse.model';
+import { BaseType } from '../shared/BaseType';
+import { BaseConnection } from '../shared/pageResponse.type';
 
-@ObjectType({ implements: BaseModel })
-export class Item extends BaseModel {
+@ObjectType({ implements: BaseType })
+export class Item extends BaseType {
   @Field()
   name: string;
 

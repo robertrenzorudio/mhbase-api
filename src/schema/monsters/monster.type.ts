@@ -1,23 +1,19 @@
 import 'reflect-metadata';
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Ailment } from '../ailments/ailment.model';
-import { Element } from '../elements/element.model';
-import { Location } from '../locations/location.model';
-import { Reward } from '../rewards/reward.model';
-import { Resistance } from './resistance.model';
-import { Weakness } from './weakness.model';
+import { Field, ObjectType } from 'type-graphql';
+import { Ailment } from '../ailments/ailment.type';
+import { Element } from '../elements/element.type';
+import { Location } from '../locations/location.type';
+import { Reward } from '../rewards/reward.type';
+import { BaseType } from '../shared/BaseType';
+import { BaseConnection } from '../shared/pageResponse.type';
+import { Resistance } from './resistance.type';
+import { Weakness } from './weakness.type';
 
-@ObjectType()
-export class Monster {
-  @Field(() => ID)
-  readonly id: number;
-
+@ObjectType({ implements: BaseType })
+export class Monster extends BaseType {
   @Field()
   name: string;
-}
 
-@ObjectType()
-export class MonsterInfo extends Monster {
   @Field()
   type: string;
 
@@ -45,3 +41,6 @@ export class MonsterInfo extends Monster {
   @Field(() => [Reward])
   rewards: Reward;
 }
+
+@ObjectType()
+export class MonsterConnection extends BaseConnection<Monster>(Monster) {}

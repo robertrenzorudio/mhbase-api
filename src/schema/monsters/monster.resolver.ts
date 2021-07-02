@@ -4,60 +4,55 @@ import { Ctx, FieldResolver, Resolver, Root } from 'type-graphql';
 import { EntityName } from '../../enums';
 import { createBaseResolver } from '../shared';
 import { MonsterArgs } from './monster.args';
-import { MonsterInfo } from './monster.model';
-import { Reward } from '../rewards/reward.model';
-import { Ailment } from '../ailments/ailment.model';
-import { Location } from '../locations/location.model';
-import { Element } from '../elements/element.model';
+import { Monster, MonsterConnection } from './monster.type';
+import { Reward } from '../rewards/reward.type';
+import { Ailment } from '../ailments/ailment.type';
+import { Location } from '../locations/location.type';
+import { Element } from '../elements/element.type';
 
 const MonsterBaseResolver = createBaseResolver(
   'monster',
-  MonsterInfo,
+  Monster,
+  MonsterConnection,
   MonsterArgs,
   EntityName.Monster
 );
 
-@Resolver(MonsterInfo)
+@Resolver(Monster)
 export class MonsterResolver extends MonsterBaseResolver {
   @FieldResolver(() => [Reward])
-  async rewards(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
+  async rewards(@Root() monster: Monster, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },
       })
-      .rewards({
-        select: {
-          id: true,
-          item: { select: { id: true, name: true } },
-          conditions: true,
-        },
-      });
+      .rewards();
   }
 
   @FieldResolver(() => [Ailment])
-  async ailments(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
+  async ailments(@Root() monster: Monster, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },
       })
-      .ailments({ select: { id: true, name: true } });
+      .ailments();
   }
 
   @FieldResolver(() => [Location])
-  async locations(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
+  async locations(@Root() monster: Monster, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },
       })
-      .locations({ select: { id: true, name: true } });
+      .locations();
   }
 
   @FieldResolver(() => [Element])
-  async elements(@Root() monster: MonsterInfo, @Ctx() ctx: Context) {
+  async elements(@Root() monster: Monster, @Ctx() ctx: Context) {
     return ctx.prisma.monster
       .findUnique({
         where: { id: monster.id },
       })
-      .elements({ select: { id: true, name: true } });
+      .elements();
   }
 }
