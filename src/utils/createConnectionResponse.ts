@@ -42,9 +42,9 @@ export const createConnectionResponse = async <T extends BaseModel>(
   const hasPreviousPage = await _hasPreviousPage(args);
 
   let nodes = [...data];
-  if (first && hasNextPage) {
+  if (first && data.length > first) {
     nodes.pop();
-  } else if (last && hasPreviousPage) {
+  } else if (last && data.length > last) {
     nodes.shift();
   }
 
@@ -80,7 +80,6 @@ const _hasNextPage = async <T extends BaseModel>(
   if (before) {
     const maxId = await ctx.redis.get(key);
     if (!maxId) {
-      console.log('GET FROM DB');
       const [{ max }] = await ctx.prisma.$queryRaw<[{ max: number }]>(
         `SELECT MAX("id") FROM "${entity}" LIMIT 1`
       );
@@ -105,7 +104,6 @@ const _hasPreviousPage = async <T extends BaseModel>(
   if (after) {
     const minId = await ctx.redis.get(key);
     if (!minId) {
-      console.log('GET FROM DB');
       const [{ min }] = await ctx.prisma.$queryRaw<[{ min: number }]>(
         `SELECT MIN("id") FROM "${entity}" LIMIT 1`
       );
