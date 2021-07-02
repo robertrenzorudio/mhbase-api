@@ -1,3 +1,4 @@
+require('dotenv').config();
 import { BaseType } from '../schema/shared/BaseType';
 import { cursorHash } from '.';
 import { Context } from '../types';
@@ -83,7 +84,7 @@ const _hasNextPage = async <T extends BaseType>(
       const [{ max }] = await ctx.prisma.$queryRaw<[{ max: number }]>(
         `SELECT MAX("id") FROM "${entity}" LIMIT 1`
       );
-      await ctx.redis.setex(key, 3600, max);
+      await ctx.redis.setex(key, +process.env.MINMAX_ID_TTL!, max);
       return max !== data.slice(-1)[0].id;
     } else {
       return +maxId !== data.slice(-1)[0].id;
@@ -107,7 +108,7 @@ const _hasPreviousPage = async <T extends BaseType>(
       const [{ min }] = await ctx.prisma.$queryRaw<[{ min: number }]>(
         `SELECT MIN("id") FROM "${entity}" LIMIT 1`
       );
-      await ctx.redis.setex(key, 3600, min);
+      await ctx.redis.setex(key, +process.env.MINMAX_ID_TTL!, min);
       return min !== data[0].id;
     } else {
       return +minId !== data[0].id;
