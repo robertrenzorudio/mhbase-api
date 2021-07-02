@@ -1,21 +1,20 @@
 import 'reflect-metadata';
-import { Field, ID, Int, ObjectType } from 'type-graphql';
-import { Camp } from './camp.model';
+import { Field, Int, ObjectType } from 'type-graphql';
+import { BaseType } from '../shared/BaseType';
+import { BaseConnection } from '../shared/pageResponse.type';
+import { Camp } from './camp.type';
 
-@ObjectType()
-export class Location {
-  @Field(() => ID)
-  readonly id: number;
-
+@ObjectType({ implements: BaseType })
+export class Location extends BaseType {
   @Field()
   name: string;
-}
 
-@ObjectType()
-export class LocationInfo extends Location {
   @Field(() => Int)
   zoneCount: number;
 
   @Field(() => [Camp])
   camps: Camp[];
 }
+
+@ObjectType()
+export class LocationConnection extends BaseConnection<Location>(Location) {}
