@@ -1,16 +1,12 @@
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
+import { BaseModel } from '../shared/baseModel';
+import { BaseConnection } from '../shared/pageResponse.model';
 
-@ObjectType()
-export class Item {
-  @Field(() => ID)
-  readonly id: number;
-
+@ObjectType({ implements: BaseModel })
+export class Item extends BaseModel {
   @Field()
   name: string;
-}
 
-@ObjectType()
-export class ItemInfo extends Item {
   @Field()
   description: string;
 
@@ -23,3 +19,6 @@ export class ItemInfo extends Item {
   @Field(() => Int)
   value: number;
 }
+
+@ObjectType()
+export class ItemConnection extends BaseConnection<Item>(Item) {}
