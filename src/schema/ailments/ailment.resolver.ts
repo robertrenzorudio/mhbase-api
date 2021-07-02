@@ -2,25 +2,26 @@ import 'reflect-metadata';
 import { Ctx, FieldResolver, Info, Resolver, Root } from 'type-graphql';
 import { createBaseResolver } from '../shared';
 import { EntityName } from '../../enums';
-import { AilmentInfo } from './ailment.model';
+import { Ailment, AilmentConnection } from './ailment.type';
 import { AilmentArgs } from './ailment.args';
 import { Context } from '../../types';
-import { Cure } from './cure.model';
+import { Cure } from './cure.type';
 import { GraphQLResolveInfo } from 'graphql';
 import { parseResolveInfo, ResolveTree } from 'graphql-parse-resolve-info';
 
 const AilmentBaseResolver = createBaseResolver(
   'ailment',
-  AilmentInfo,
+  Ailment,
+  AilmentConnection,
   AilmentArgs,
   EntityName.Ailment
 );
 
-@Resolver(AilmentInfo)
+@Resolver(Ailment)
 export class AilmentResolver extends AilmentBaseResolver {
   @FieldResolver(() => Cure)
   async cure(
-    @Root() ailment: AilmentInfo,
+    @Root() ailment: Ailment,
     @Ctx() ctx: Context,
     @Info() info: GraphQLResolveInfo
   ) {
@@ -35,10 +36,8 @@ export class AilmentResolver extends AilmentBaseResolver {
       .cure({
         select: {
           action: !!Cure.action,
-          items: !!Cure.items ? { select: { id: true, name: true } } : false,
-          protections: !!Cure.protections
-            ? { select: { id: true, name: true } }
-            : false,
+          items: !!Cure.items,
+          protections: !!Cure.protections,
         },
       });
   }

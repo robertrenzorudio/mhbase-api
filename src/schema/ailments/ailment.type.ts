@@ -1,20 +1,19 @@
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Cure } from './cure.model';
+import { Field, ObjectType } from 'type-graphql';
+import { BaseType } from '../shared/BaseType';
+import { BaseConnection } from '../shared/pageResponse.type';
+import { Cure } from './cure.type';
 
-@ObjectType()
-export class Ailment {
-  @Field(() => ID)
-  readonly id: number;
-
+@ObjectType({ implements: BaseType })
+export class Ailment extends BaseType {
   @Field()
   name: string;
-}
 
-@ObjectType()
-export class AilmentInfo extends Ailment {
   @Field()
   description: string;
 
   @Field(() => Cure)
   cure: Cure;
 }
+
+@ObjectType()
+export class AilmentConnection extends BaseConnection<Ailment>(Ailment) {}
