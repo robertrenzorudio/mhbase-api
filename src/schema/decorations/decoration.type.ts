@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 import { BaseType } from '../shared/BaseType';
 import { BaseConnection } from '../shared/pageResponse.type';
 import { SkillRank } from '../skills/skill-rank.type';
