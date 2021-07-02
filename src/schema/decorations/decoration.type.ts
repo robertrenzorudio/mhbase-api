@@ -1,11 +1,10 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql';
-import { SkillRank } from '../skills/skill-rank.model';
+import { BaseType } from '../shared/BaseType';
+import { BaseConnection } from '../shared/pageResponse.type';
+import { SkillRank } from '../skills/skill-rank.type';
 
-@ObjectType()
-export class Decoration {
-  @Field(() => ID)
-  readonly id: number;
-
+@ObjectType({ implements: BaseType })
+export class Decoration extends BaseType {
   @Field()
   name: string;
 
@@ -18,3 +17,8 @@ export class Decoration {
   @Field(() => [SkillRank])
   skills: SkillRank[];
 }
+
+@ObjectType()
+export class DecorationConnection extends BaseConnection<Decoration>(
+  Decoration
+) {}
